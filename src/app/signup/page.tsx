@@ -59,10 +59,14 @@ export default function SignupPage() {
         email: formData.email,
         password: formData.password,
       });
-
+      
       if (authError) {
         console.error("Supabase Auth Error:", authError);
         throw authError;
+      }
+
+      if (!data.session) {
+        router.push("/verify-email");
       }
 
       // 3. Store initial profile data in sessionStorage for the /verify step
