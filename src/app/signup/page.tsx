@@ -52,6 +52,21 @@ export default function SignupPage() {
         if (checkErr.message === "Username is already taken.") throw checkErr;
       }
 
+      // GITAM email validation
+      const domain = formData.email.split("@")[1]?.toLowerCase();
+
+      const isGitamEmail =
+        domain === "gitam.in" ||
+        domain.endsWith(".gitam.in") ||
+        domain === "gitam.edu" ||
+        domain.endsWith(".gitam.edu");
+
+      if (!isGitamEmail) {
+        setError("Only GITAM email addresses are allowed.");
+        setLoading(false);
+        return;
+      }
+      
       // 2. Sign up with Supabase
       const { data, error: authError } = await supabase.auth.signUp({
         email: formData.email,
