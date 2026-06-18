@@ -83,10 +83,16 @@ export default function OnboardingPage() {
     setIsLoading(true);
     setErrorMsg("");
     try {
-      if (!user_id) {
-        throw new Error("User session not found. Please log in again.");
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error("User session not found");
       }
-      //*
+
+      const user_id = user.id;
+
       let avatarUrl = "";
 
       if (profileImage) {
@@ -129,7 +135,9 @@ export default function OnboardingPage() {
         payload.interests = selectedTags;
         payload.privacy_settings = privacySettings;
       }
-      console.log("About to call apiFetch..."); 
+      console.log("About to call apiFetch...");
+      console.log("user_id =", user_id);//*
+      console.log("api url =", `/profiles/${user_id}`); //*
       await apiFetch(`/profiles/${user_id}`, {
         method: "PUT",
         body: JSON.stringify(payload),

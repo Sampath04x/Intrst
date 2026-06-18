@@ -61,7 +61,14 @@ export default function SignupPage() {
         domain === "gitam.edu" ||
         domain.endsWith(".gitam.edu");
 
-      if (!isGitamEmail) {
+      // if (!isGitamEmail) {
+      //   setError("Only GITAM email addresses are allowed.");
+      //   setLoading(false);
+      //   return;
+      // }
+      const ADMIN_EMAIL = "vempatapuyoshitha@gmail.com";
+
+      if (!isGitamEmail && formData.email.toLowerCase() !== ADMIN_EMAIL) {
         setError("Only GITAM email addresses are allowed.");
         setLoading(false);
         return;
