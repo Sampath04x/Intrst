@@ -121,27 +121,7 @@ export default function SignupPage() {
         timestamp: new Date().getTime()
       }));
 
-      // 4. If session exists instantly (email confirm OFF), initialize and go to onboarding
-      if (data?.session) {
-        try {
-          await apiFetch("/auth/initialize-profile", {
-            method: "POST",
-            body: JSON.stringify({
-              user_id: data.user?.id,
-              email: formData.email,
-              name: formData.name,
-              username: formData.username,
-            }),
-          });
-        } catch (initErr) {
-          console.error("Auto-initialization failed:", initErr);
-        }
-
-        router.push("/onboarding");
-        return;
-      }
-
-      // 5. Redirect to verify (Supabase signUp automatically sends the confirmation email/OTP code if enabled)
+      // 4. Redirect to verify (Supabase signUp automatically sends the confirmation email/OTP code if enabled)
       router.push(
         `/verify?email=${encodeURIComponent(formData.email)}&type=signup`
       );
